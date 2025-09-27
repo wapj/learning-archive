@@ -1,0 +1,12 @@
+[project]
+name = "programmers-250930"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.5",
+    "dotenv>=0.9.9",
+    "httpx>=0.28.1",
+    "langchain[google-genai]>=0.3.27",
+]
