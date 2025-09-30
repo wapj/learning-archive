@@ -2,8 +2,21 @@
 
 ### 터미널 
 ```
-pip -m venv .venv
+python -m venv .venv
 uv init && uv venv
+```
+
+ensurepip 에러가 나는 경우
+```
+
+# pip 없이 venv 생성
+python -m venv .venv --without-pip
+
+# 가상환경 활성화
+source .venv/bin/activate
+
+# pip 수동 설치
+curl https://bootstrap.pypa.io/get-pip.py | python
 ```
 
 ### VSCode 
