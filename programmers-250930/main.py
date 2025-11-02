@@ -11,7 +11,6 @@ load_dotenv()
 llm = init_chat_model("gemini-2.5-flash", model_provider="google_genai")
 
 
-
 def extract_article_text(html_content):
     """
     HTML에서 data-tiara-layer="article_body" 속성을 가진 div의 텍스트를 추출
