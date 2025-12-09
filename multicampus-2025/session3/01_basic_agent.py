@@ -6,11 +6,11 @@ from agents.extensions.models.litellm_model import LitellmModel
 # ------------------------------------------------------------------------------
 # 1단계: Gemini를 이용한 기본 에이전트 (Basic Agent using Gemini)
 #
-# 이 예제는 LiteLLM 확장을 통해 Google의 Gemini 모델을 사용하는 간단한 에이전트를
-# 생성하는 방법을 보여줍니다.
+# 이 예제는 OpenAI Agents SDK와 LiteLLM 확장을 통해 Google의 Gemini 모델을 
+# 사용하는 간단한 에이전트를 생성하는 방법을 보여줍니다.
 #
 # 사전 준비사항 (Prerequisites):
-# - 패키지 설치: pip install google-agents litellm termcolor
+# - 패키지 설치: pip install openai-agents litellm termcolor
 # - Google Gemini API Key 발급
 # ------------------------------------------------------------------------------
 

@@ -51,7 +51,7 @@ triage_agent = Agent(
     그 외의 일반적인 질문에는 직접 대답하세요. (한국어로)
     """,
     # 다른 에이전트로 전환하기 위한 함수를 'tools' 처럼 등록이 아닌, 'handoffs' 메커니즘을 사용합니다.
-    # agents-sdk 에서는 handoffs 리스트에 함수를 전달하여 제어를 넘길 수 있습니다.
+    # OpenAI Agents SDK 에서는 handoffs 리스트에 함수를 전달하여 제어를 넘길 수 있습니다.
     handoffs=[transfer_to_english_expert, transfer_to_spanish_expert]
 )
 

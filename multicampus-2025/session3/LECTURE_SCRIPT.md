@@ -1,21 +1,23 @@
-# AI 에이전트 개발 마스터 클래스: Google's Agents SDK (Python)
+# AI 에이전트 개발 마스터 클래스: OpenAI Agents SDK (Python)
 
-안녕하세요! 이번 강의에서는 구글의 새로운 오픈소스 프레임워크인 **Agents SDK**를 사용하여 AI 에이전트를 개발하는 방법을 배웁니다. 단순한 챗봇을 넘어, 도구를 사용하고, 서로 협력하는 멀티 에이전트 시스템까지 구축해 보겠습니다.
+안녕하세요! 이번 강의에서는 **OpenAI**의 새로운 오픈소스 프레임워크인 **Agents SDK**를 사용하여 AI 에이전트를 개발하는 방법을 배웁니다. 이 프레임워크는 OpenAI의 실험적 프로젝트였던 **Swarm**을 계승하여 더욱 안정적이고 확장 가능한 형태로 발전했습니다.
+
+이번 강의의 특별한 점은 **OpenAI의 SDK를 사용하면서도, 모델은 Google의 Gemini를 연동**하여(LiteLLM 활용) 실습한다는 점입니다. 이를 통해 SDK의 유연성과 Gemini의 강력한 성능을 동시에 경험할 수 있습니다.
 
 ## 1. 이론: Agents SDK란 무엇인가?
 
 ### 1.1 개요
-Agents SDK는 개발자가 신뢰할 수 있고 확장 가능한 AI 에이전트를 쉽게 구축할 수 있도록 돕는 Python 라이브러리입니다. 모듈식 구조를 가지고 있어 어떤 LLM(Large Language Model)이든 연결하여 사용할 수 있습니다.
+Agents SDK는 개발자가 신뢰할 수 있고 확장 가능한 AI 에이전트를 쉽게 구축할 수 있도록 돕는 Python 라이브러리입니다. 가볍고 사용하기 쉬운 구조로 설계되었으며, 에이전트 간의 협업(Multi-Agent)을 위한 기능들을 기본적으로 제공합니다.
 
 ### 1.2 주요 특징
-*   **유연한 모델 연동**: Gemini, GPT-4, Claude 등 다양한 모델을 쉽게 교체하여 사용할 수 있습니다 (LiteLLM 활용).
-*   **도구(Tools) 통합**: 에이전트가 Python 함수를 호출하여 외부 세계(API, 파일 시스템 등)와 상호작용할 수 있습니다.
-*   **관측 가능성(Observability)**: 에이전트의 생각 과정, 도구 사용 내역 등을 상세하게 추적하고 모니터링할 수 있습니다.
-*   **핸드오프(Handoff)**: 복잡한 작업을 여러 에이전트가 나누어 처리하도록 제어권을 넘겨주는 기능을 제공합니다.
+*   **에이전트(Agents)**: 지침(Instructions)과 도구(Tools)를 가진 LLM 래퍼입니다.
+*   **핸드오프(Handoffs)**: 에이전트가 다른 에이전트에게 제어권을 넘겨주며 복잡한 작업을 분담합니다.
+*   **유연한 모델 연동**: 기본적으로 OpenAI 모델에 최적화되어 있지만, LiteLLM 등을 통해 Gemini, Claude 등 다양한 모델을 연결할 수 있습니다.
+*   **관측 가능성(Observability) & 가드레일(Guardrails)**: 에이전트의 실행 과정을 추적하고, 입력/출력을 검증하는 기능을 제공합니다.
 
 ### 1.3 참고 자료
-*   **공식 문서 및 코드**: [https://github.com/google-gemini/agents-sdk-python](https://github.com/google-gemini/agents-sdk-python)
-*   **설치 가이드**: `pip install agents-sdk` (본 강의에서는 LiteLLM도 함께 사용합니다)
+*   **공식 문서 및 코드**: [https://github.com/openai/openai-agents-python](https://github.com/openai/openai-agents-python)
+*   **설치 가이드**: `pip install openai-agents` (본 강의에서는 LiteLLM도 함께 사용합니다)
 
 ---
 
@@ -26,7 +28,7 @@ Agents SDK는 개발자가 신뢰할 수 있고 확장 가능한 AI 에이전트
 ### 2.1 설치
 터미널에서 다음 명령어를 실행하세요.
 ```bash
-pip install agents-sdk litellm google-generativeai
+pip install openai-agents litellm termcolor
 ```
 
 ### 2.2 API 키 설정
@@ -48,15 +50,15 @@ export GEMINI_API_KEY="여러분의_API_키"
 *   **실행**: `python 01_basic_agent.py`
 
 ### Step 2: 도구를 사용하는 에이전트 (Tools)
-에이전트에게 '계산기' 같은 도구를 쥐어줍니다. LLM은 계산에 약하지만, 도구를 사용하면 정확해집니다.
+에이전트에게 '날씨 검색' 같은 도구를 쥐어줍니다. LLM은 실시간 정보에 약하지만, 도구를 사용하면 정확해집니다.
 *   **파일**: `02_tools_agent.py`
-*   **핵심**: Python 함수(`get_word_length`) 정의, `tools=[func]` 파라미터 전달.
+*   **핵심**: Python 함수(`get_weather`) 정의, `tools=[func]` 파라미터 전달.
 *   **실행**: `python 02_tools_agent.py`
 
 ### Step 3: 에이전트 모니터링 (Monitoring)
 에이전트가 무슨 생각을 하고 어떤 도구를 왜 썼는지 '로그'를 통해 확인합니다.
 *   **파일**: `03_agent_monitoring.py`
-*   **핵심**: `LogListener` 구현, `Runner.run(..., listeners=[listener])`.
+*   **핵심**: `monitor_callback` 함수 구현, `Runner.run(..., monitor=monitor_callback)`.
 *   **실행**: `python 03_agent_monitoring.py`
 *   **포인트**: 에이전트의 추론 과정(Reasoning)이 출력되는 것을 확인하세요.
 
@@ -69,7 +71,7 @@ export GEMINI_API_KEY="여러분의_API_키"
 ### Step 5: 멀티 에이전트 협업 (Handoff)
 한 명의 에이전트가 모든 걸 다 할 수는 없습니다. 전문 분야가 다른 에이전트끼리 작업을 넘기는 방법입니다.
 *   **파일**: `05_multi_agent_handoff.py`
-*   **핵심**: `handoffs` 파라미터. `TriageAgent`(분류 담당)가 `EnglishExpert`나 `SpanishExpert`로 제어권을 이양합니다.
+*   **핵심**: `handoffs` 파라미터. `TriageBot`(분류 담당)이 `EnglishExpert`나 `SpanishExpert`로 제어권을 이양합니다.
 *   **실행**: `python 05_multi_agent_handoff.py`
 
 ---
